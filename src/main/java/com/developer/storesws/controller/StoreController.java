@@ -28,7 +28,7 @@ public class StoreController {
 	StoreResourceAssembler assembler;
 	
 	@GetMapping("/{id}")
-	public Resource<Store> getStore(@PathVariable UUID id) {
+	public Resource<Store> getStore(@PathVariable String id) {
 		
 		Store store = storeService.find(id);
 		return assembler.toResource(store);
@@ -36,7 +36,7 @@ public class StoreController {
 	}
 	
 	@PostMapping("/{id}")
-	public Resource<Store> updateStore(@PathVariable UUID id, @RequestBody Store store){
+	public Resource<Store> updateStore(@PathVariable String id, @RequestBody Store store){
 		Store updateStore = storeService.updateStore(id, store);
 		
 		return assembler.toResource(updateStore);
@@ -44,7 +44,7 @@ public class StoreController {
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteStore(@PathVariable UUID id){
+	public ResponseEntity<String> deleteStore(@PathVariable String id){
 	
 			try {
 				storeService.remove(id);

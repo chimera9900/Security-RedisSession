@@ -36,8 +36,8 @@ public class StoreService {
 	@Autowired
 	TestBean testBean;
 	
-	public UUID addStore(Store store)  {
-		UUID uuid = UUID.randomUUID();
+	public String addStore(Store store)  {
+		String uuid = UUID.randomUUID().toString();
 		String sql = "insert into store (url, uuid, version, description, createOn) values(:url, :uuid, 1, :description, :createOn)";
 		jdbc.update(sql, new MapSqlParameterSource("url", store.getUrl())
 				.addValue("uuid", uuid)
@@ -50,7 +50,7 @@ public class StoreService {
 		
 	}
 	
-	public Store find(UUID id) {
+	public Store find(String id) {
 		String sql = "select * from store where uuid = :uuid";
 		try {
 			return jdbc.queryForObject(sql, new MapSqlParameterSource("uuid", id), new StoreRowMapper());
@@ -66,7 +66,7 @@ public class StoreService {
 		return list;
 }
 	
-	public Store updateStore(UUID id, Store store) {
+	public Store updateStore(String id, Store store) {
 		find(id);
 		String sql = "update store set url=:url, version = version + 1, description=:description, updateOn=:updateOn"
 				+ " where uuid=:uuid";
@@ -79,7 +79,7 @@ public class StoreService {
 		return find(id);
 	}
 
-	public void remove(UUID id) {
+	public void remove(String id) {
 		
 		String sql = "delete from store where uuid = :uuid";
 		
@@ -95,7 +95,7 @@ class StoreRowMapper implements RowMapper<Store>{
 	public Store mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Store store = new Store();
 		store.setUrl(rs.getString("url"));
-		store.setUuid(rs.getObject("uuid", UUID.class));
+		store.setUuid(rs.getString("uuid"));
 		store.setVersion(rs.getInt("version"));
 		store.setCreateOn(rs.getObject("createOn", LocalDateTime.class));
 		store.setDescription(rs.getString("description"));

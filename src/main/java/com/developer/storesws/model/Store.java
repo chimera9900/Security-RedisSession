@@ -21,7 +21,7 @@ public class Store {
 	@NotEmpty
 	@URL
 	private String url;
-	private UUID uuid;
+	private String uuid;
 	private int version;
 	@Length(max = 255, min = 5)
 	private String description;
@@ -45,7 +45,7 @@ public class Store {
 
 	@JsonCreator
 	public Store(@JsonProperty("url") String url,
-			@JsonProperty("uuid") UUID uuid,
+			@JsonProperty("uuid") String uuid,
 			@JsonProperty("version") int version,
 			@JsonProperty("description") String description,
 			@JsonProperty("createOn") LocalDateTime createOn,
@@ -67,7 +67,7 @@ public class Store {
 		this.url = url;
 	}
 
-	public  Store withUuid(UUID uuid) {
+	public  Store withUuid(String uuid) {
 		return new Store(url, uuid, version, description, createOn, updateOn);
 		
 	}
@@ -76,11 +76,11 @@ public class Store {
 		
 	}
 
-	public UUID getUuid() {
+	public String getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(UUID uuid) {
+	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
 

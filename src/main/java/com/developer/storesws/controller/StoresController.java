@@ -28,11 +28,10 @@ public class StoresController {
 	
 	@PostMapping
 	public ResponseEntity<Void> addStore(@RequestBody @Valid Store store) throws MalformedURLException, URISyntaxException {
-		UUID uuid = storeService.addStore(store);
+		String uuid = storeService.addStore(store);
 		return ResponseEntity.created(
 				BasicLinkBuilder.linkToCurrentMapping().slash("store").slash(uuid).toUri()
-				).build();
-	}
+				).build();}
 	
 	@GetMapping
 	public Resources<Store> findAll() {

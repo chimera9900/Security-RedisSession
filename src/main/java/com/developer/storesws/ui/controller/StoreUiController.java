@@ -30,7 +30,7 @@ public class StoreUiController {
 	StoreService storeService;
 	
 	@ModelAttribute(value = "store")
-	public Store store(@PathVariable Optional<UUID> uuid) {
+	public Store store(@PathVariable Optional<String> uuid) {
 		return uuid.map(x -> storeService.find(x))
 				.orElseGet(Store::new);
 	}
@@ -41,7 +41,7 @@ public class StoreUiController {
 	}
 	
 	@GetMapping(value = "/{uuid}/delete")
-	public String deleteStore(@PathVariable UUID uuid) {
+	public String deleteStore(@PathVariable String uuid) {
 		storeService.remove(uuid);
 		return "redirect:/api/stores";
 	}
@@ -56,7 +56,7 @@ public class StoreUiController {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(value = "/{uuid}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String updateStore(@PathVariable UUID uuid, @Valid Store store, BindingResult result) {
+	public String updateStore(@PathVariable String uuid, @Valid Store store, BindingResult result) {
 		if(result.hasErrors()) {
 			return "store/edit";
 		}
