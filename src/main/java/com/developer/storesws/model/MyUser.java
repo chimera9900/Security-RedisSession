@@ -1,5 +1,6 @@
 package com.developer.storesws.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MyUser implements UserDetails {
+public class MyUser implements UserDetails, Serializable {
+	
+	private static final long serialVersionUID = 1101528022155029687L;
 	
 	List<GrantedAuthority> authorities = new ArrayList<>();
 	private String username;
