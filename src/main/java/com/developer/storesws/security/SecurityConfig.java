@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.developer.storesws.service.UserService;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -21,13 +23,17 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	DataSource dataSource;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	UserService userService;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication()
-		.usersByUsernameQuery("select username, password, enabled from users where username = ?")
-		.authoritiesByUsernameQuery("select username, role as authority from user_roles where username = ?")
-		.dataSource(dataSource)
+		auth
+		.userDetailsService(username -> userService.findUserByUsername(username));
+//		.jdbcAuthentication()
+//		.usersByUsernameQuery("select username, password, enabled from users where username = ?")
+//		.authoritiesByUsernameQuery("select username, role as authority from user_roles where username = ?")
+//		.dataSource(dataSource)
 		
 		
 		;
